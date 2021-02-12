@@ -1,0 +1,61 @@
+apiVersion: machine.openshift.io/v1beta1
+kind: MachineSet
+metadata:
+  labels:
+    machine.openshift.io/cluster-api-cluster: ocp4-4jflg
+  name: ocp4-4jflg-infra01-us-east-2
+  namespace: openshift-machine-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      machine.openshift.io/cluster-api-cluster: ocp4-4jflg
+      machine.openshift.io/cluster-api-machineset: ocp4-4jflg-infra-us-east-2a
+  template:
+    metadata:
+      labels:
+        machine.openshift.io/cluster-api-cluster: ocp4-4jflg
+        machine.openshift.io/cluster-api-machine-role: worker
+        machine.openshift.io/cluster-api-machine-type: worker
+        machine.openshift.io/cluster-api-machineset: ocp4-4jflg-infra-us-east-2a
+    spec:
+      metadata:
+        labels:
+          node-role.kubernetes.io/infra: ""
+      providerSpec:
+        value:
+          ami:
+            id: ami-0a1f868ad58ea59a7
+          apiVersion: awsproviderconfig.openshift.io/v1beta1
+          blockDevices:
+          - ebs:
+              iops: 0
+              volumeSize: 120
+              volumeType: gp2
+          credentialsSecret:
+            name: aws-cloud-credentials
+          deviceIndex: 0
+          iamInstanceProfile:
+            id: ocp4-4jflg-worker-profile
+          instanceType: m4.xlarge
+          kind: AWSMachineProviderConfig
+          metadata:
+            creationTimestamp: null
+          placement:
+            availabilityZone: us-east-2a
+            region: us-east-2
+          securityGroups:
+          - filters:
+            - name: tag:Name
+              values:
+              - ocp4-4jflg-worker-sg
+          subnet:
+            filters:
+            - name: tag:Name
+              values:
+              - ocp4-4jflg-private-us-east-2a
+          tags:
+          - name: kubernetes.io/cluster/ocp4-4jflg
+            value: owned
+          userDataSecret:
+            name: worker-user-data              
