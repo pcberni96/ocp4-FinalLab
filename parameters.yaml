@@ -1,0 +1,5 @@
+PROJECT_NAME: "<project-name>"
+PROJECT_DISPLAYNAME: "<project-name>"
+PROJECT_DESCRIPTION: "<description>"
+PROJECT_ADMIN_USER: "<useradmin>"
+PROJECT_REQUESTING_USER: "<userrequesting>"
